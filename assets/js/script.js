@@ -179,3 +179,207 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Observe elements for animation
     const animateElements = document.querySelectorAll('.mission-card, .link-card, .step');
+    
+    animateElements.forEach(element => {
+        // Set initial state
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        
+        observer.observe(element);
+    });
+    
+    // Button Click Effects
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255,255,255,0.6)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.pointerEvents = 'none';
+            
+            button.style.position = 'relative';
+            button.style.overflow = 'hidden';
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+    
+    // Add CSS for ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Loading State Management
+    function showLoading(element) {
+        const originalText = element.textContent;
+        element.textContent = 'Loading...';
+        element.disabled = true;
+        element.style.opacity = '0.7';
+        
+        return function hideLoading() {
+            element.textContent = originalText;
+            element.disabled = false;
+            element.style.opacity = '1';
+        };
+    }
+    
+    // Card Hover Effects Enhancement
+    const cards = document.querySelectorAll('.mission-card, .link-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+    
+    // Keyboard Navigation Enhancement
+    document.addEventListener('keydown', function(e) {
+        // ESC key closes mobile menu
+        if (e.key === 'Escape') {
+            if (navMenu && navMenu.classList.contains('active')) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        }
+        
+        // Enter key activates buttons and links
+        if (e.key === 'Enter') {
+            const focusedElement = document.activeElement;
+            if (focusedElement.classList.contains('btn') || focusedElement.classList.contains('nav-link')) {
+                focusedElement.click();
+            }
+        }
+    });
+    
+    // Utility Functions
+    window.TexasEsports = {
+        // Scroll to top function
+        scrollToTop: function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        },
+        
+        // Show notification
+        showNotification: function(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+                color: white;
+                border-radius: 5px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 10000;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        },
+        
+        // Form submission handler
+        handleFormSubmit: function(formElement, successCallback) {
+            formElement.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateForm(this)) {
+                    const hideLoading = showLoading(this.querySelector('[type="submit"]'));
+                    
+                    // Simulate form submission
+                    setTimeout(() => {
+                        hideLoading();
+                        if (successCallback) {
+                            successCallback();
+                        } else {
+                            TexasEsports.showNotification('Form submitted successfully!', 'success');
+                        }
+                    }, 1500);
+                } else {
+                    TexasEsports.showNotification('Please fill in all required fields correctly.', 'error');
+                }
+            });
+        }
+    };
+    
+    // Initialize any existing forms
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        TexasEsports.handleFormSubmit(form);
+    });
+    
+    // Performance optimization: Debounce scroll events
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    // Apply debouncing to scroll events
+    const debouncedScrollHandler = debounce(function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 10) {
+            header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.15)';
+        } else {
+            header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        }
+    }, 10);
+    
+    window.removeEventListener('scroll', function() {}); // Remove previous listener
+    window.addEventListener('scroll', debouncedScrollHandler);
+    
+    console.log('Texas Esports Commission website initialized successfully!');
+});
