@@ -1157,6 +1157,185 @@ p { margin-bottom: 1rem; }
     text-decoration: underline;
 }
 
+/* Schedule Section Styles (NEW) */
+.schedule-section {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+}
+
+.schedule-section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 2.5rem;
+}
+
+.schedule-intro {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Schedule embed styling */
+.schedule-embed {
+    margin: 2rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+
+.embed-container {
+    position: relative;
+    width: 100%;
+    background: #fff;
+}
+
+.embed-container iframe {
+    width: 100%;
+    min-height: 600px;
+    border: none;
+    display: block;
+}
+
+.schedule-actions {
+    padding: 1.5rem;
+    background: #fff;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.schedule-actions .btn {
+    margin: 0;
+}
+
+/* Schedule Help Section */
+.schedule-help {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-help h3 {
+    text-align: center;
+    color: #bf5700;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.help-item {
+    text-align: center;
+    padding: 1rem;
+}
+
+.help-item h4 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.help-item p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Middle School Focus Section */
+.middle-school-focus {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+}
+
+.middle-school-focus h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 2.5rem;
+}
+
+.focus-intro {
+    text-align: center;
+    color: #666;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.focus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.focus-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-top: 4px solid #bf5700;
+    transition: transform 0.3s ease;
+}
+
+.focus-card:hover {
+    transform: translateY(-5px);
+}
+
+.focus-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.focus-card h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.focus-card p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Loading state for embeds */
+.embed-container.loading {
+    position: relative;
+}
+
+.embed-container.loading::before {
+    content: "Loading schedule...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #bf5700;
+    z-index: 10;
+}
+
 /* Footer */
 .footer {
     background-color: #333;
@@ -1375,6 +1554,44 @@ p { margin-bottom: 1rem; }
     .resources-grid {
         grid-template-columns: 1fr;
     }
+
+    /* Schedule Section Mobile */
+    .schedule-section {
+        padding: 60px 0;
+    }
+    
+    .schedule-section h2 {
+        font-size: 2rem;
+    }
+    
+    .embed-container iframe {
+        min-height: 500px;
+    }
+    
+    .schedule-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .schedule-actions .btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .help-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .schedule-help {
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .focus-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1400,5 +1617,18 @@ p { margin-bottom: 1rem; }
 
     .hero-buttons {
         flex-direction: column;
+    }
+
+    .embed-container iframe {
+        min-height: 400px;
+    }
+    
+    .schedule-help h3 {
+        font-size: 1.5rem;
+    }
+    
+    .schedule-intro {
+        font-size: 1rem;
+        padding: 0 1rem;
     }
 }
